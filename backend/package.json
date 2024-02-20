@@ -1,7 +1,7 @@
 {
   "name": "test-gen-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Install the required dependencies by running:",
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsnd src/index.ts",
@@ -9,7 +9,7 @@
     "start": "node dist/index.js",
     "build": "tsc -b tsconfig.json",
     "format:check": "prettier --check ./*/**/*.ts",
-    "format:write": "prettier --write ./*/**/*.ts",
+    "format:write": "prettier --write ./*/**/*.ts"
   },
   "author": "Vivek K",
   "license": "ISC",
