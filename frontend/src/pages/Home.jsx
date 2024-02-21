@@ -1,11 +1,12 @@
 import React from 'react'
-
+import SettingForm from '../componensts/SettingForm';
+import TestReport from '../componensts/TestReport';
 export default function HomePage() {
   return (
     <>
       <h1>Home</h1>
-      <p className="lead">Home page content.</p>
-      <p>Dashboard</p>
+      <SettingForm />
+      <TestReport/>
     </>
   )
 }

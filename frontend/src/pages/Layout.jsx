@@ -8,7 +8,7 @@ const Layout = () => {
 		<>
 			<Headers />
 			<main className="container">
-				<div className="mt-5 bg-light rounded">
+				<div className="mt-4 bg-light rounded">
 					{isPageLoading ? <div className='loading' /> : <Outlet />}
 				</div>
 			</main>
