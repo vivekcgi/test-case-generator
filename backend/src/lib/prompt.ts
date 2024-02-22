@@ -2,8 +2,8 @@ import axios from "axios"
 import { config } from "../config/config";
 
 export const generate = async (token:string, input: any) => {
-
-    const prompt = `Using the data given below after """, generate the test cases. The test case should include 1.Test Case scenario 2. Sample Input data in JSON format 3. Preconditions and dependencies 4. Well described Testing steps 5. Sample output data in JSON format 6. All returned Output status codes. The final response should be standardized in Gherkin syntax. """ ${input}`
+    // The final response should be standardized in Gherkin syntax
+    const prompt = `Using the data given below after """, generate the test cases. The test case should include 1.Test Case scenario 2. Sample Input data in JSON format 3. Preconditions and dependencies 4. Well described Testing steps 5. Sample output data in JSON format 6. All returned Output status codes. """ ${input} <end>`
 
     const inputData = {
 		input: prompt,
@@ -12,7 +12,7 @@ export const generate = async (token:string, input: any) => {
 			max_new_tokens: 1000,
 			min_new_tokens: 1,
 			stop_sequences: [
-				`"""`
+				"<end>"
 			],
 			repetition_penalty: 1
 		},

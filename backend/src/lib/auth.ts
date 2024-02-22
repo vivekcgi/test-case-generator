@@ -7,15 +7,14 @@ export const token = async () => {
     data.set("grant_type", "urn:ibm:params:oauth:grant-type:apikey");
     data.set("apikey", config.ibm.iam.apiKey as string);
     
-    try{
+    try {
         const response = await axios.post(config.ibm.iam.tokenUrl as string, data, {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
             }
         })
         return response.data;
-    }catch(e) {
+    } catch(e) {
         console.log(e);
     }
-    
 }

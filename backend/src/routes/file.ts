@@ -6,7 +6,7 @@ const filesController = new FilesController();
 
 export const upload: ServerRoute = {
     method: 'POST',
-    path: '/upload',
+    path: '/api/file/upload',
     options: {
         payload: {
             output: 'stream',

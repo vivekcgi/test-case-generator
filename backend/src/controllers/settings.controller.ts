@@ -2,9 +2,9 @@ import {  randomUUID} from 'crypto'
 import { ResponseHelper } from '../utils/response-helper';
 
 export class SettingsController {
-    private allSettings: any[] = [];
+    private static allSettings: any[] = [];
 
-    async saveConfig(payload: any){
+    static async saveConfig(payload: any){
         const jiraSetting = {
             id: randomUUID(),
             ...payload
@@ -14,8 +14,8 @@ export class SettingsController {
         return ResponseHelper.success('JIRA configuration saved', jiraSetting);
     }
 
-    async getConfig(){
-        const setting = this.allSettings.length > 0 ? this.allSettings[-1] : {}
+    static async getConfig(){
+        const setting = this.allSettings.length > 0 ? this.allSettings.slice(-1)[0] : {}
         return ResponseHelper.success('JIRA configuration', setting);
     }
 }
