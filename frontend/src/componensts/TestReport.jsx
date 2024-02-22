@@ -1,16 +1,46 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { ExportToExcel } from './ExportToExcel';
 
 const TestReport = () => {
+     const [data, setData] = useState([])
+     const tableData = async () => {
+        try {
+            const tableDataResponse = await axios.get('http://localhost:5173/data/data.json', {
+                headers: {
+                  "Cache-Control": "no-cache",
+                  "Content-Type": "application/x-www-form-urlencoded",
+                  "Access-Control-Allow-Origin": "*",
+                },
+              });
+            setData(tableDataResponse.data.table)
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        tableData();
+    }, []);
+    const customHeadings = data.map(item=> {
+        return {
+            "Test Scenarios":item.scenarios,
+            "Input Data":item.inputData,
+            "Expected Result":item.expectedOutput
+        }
+    })
+    
   return (
     <div className="container-xl mt-4">
 		<div className="row">
 			<div className="card mb-4">
 				<div className="card-header d-flex justify-content-between">
                     <p style={{marginBottom: 0}}>Generated Test Case</p>
-                    <button className="btn btn-primary" type="button">Export Excel File</button>
+                    {/* <button className="btn btn-primary" type="button">Export Excel File</button> */}
+                    <ExportToExcel apiData={customHeadings} fileName="myFile" />
                 </div>
                 <div className='card-body'>
-                    <table className="table border bg-white">
+                    <table className="table table-bordered">
                         <thead>
                             <tr>
                                 <th>Test Scenarios</th>
@@ -19,17 +49,15 @@ const TestReport = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Login User</td>
-                                <td>{`{name: 'milinds', password:'Abc#@1'}`}</td>
-                                <td>{`{name: 'milinds', token:'Abc#@1'}`}</td>
-                            </tr>
-                            <tr>
-                                <td>Fetch Users</td>
-                                <td>/Users</td>
-                                <td>{`
-                                {id: 123,name:"milinds"}{id:342,name:"VivekK"}`}</td>
-                            </tr>
+                            {
+                                data.length>0 && data.map((item,index) => {
+                                    return (<tr key={index}>
+                                        <td>{item.scenarios}</td>
+                                        <td>{item.inputData}</td>
+                                        <td>{item.expectedOutput}</td>
+                                    </tr>)
+                               })
+                            }
                         </tbody>
                     </table>
                 </div>

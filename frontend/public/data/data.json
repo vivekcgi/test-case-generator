@@ -1,0 +1,7 @@
+{
+    "table": [
+        {"scenarios":"Login User","inputData":"{name: 'milinds', password:'Abc#@1'}","expectedOutput":"{name: 'milinds', token:'Abc#@1'}"},
+        {"scenarios":"List of Users","inputData":"","expectedOutput":"{'milinds', 'Abc#@1'}"},
+        {"scenarios":"Login User","inputData":"{name: 'milinds', password:'Abc#@1'}","expectedOutput":"{name: 'milinds', token:'Abc#@1'}"},{"scenarios":"Login User","inputData":"{name: 'milinds', password:'Abc#@1'}","expectedOutput":"{name: 'milinds', token:'Abc#@1'}"}
+    ]
+}
