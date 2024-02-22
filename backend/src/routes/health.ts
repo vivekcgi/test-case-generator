@@ -1,4 +1,4 @@
-import { ResponseToolkit, ServerRoute } from '@hapi/hapi';
+import { ResponseToolkit, ServerRoute, Request } from '@hapi/hapi';
 
 export const health: ServerRoute = {
   path: '/health',

@@ -1,5 +1,6 @@
 import './utils/dotenv';
 import { Server } from '@hapi/hapi';
+import Inert from '@hapi/inert'
 import path from 'path';
 import { config } from './config/config';
 import { logger } from './utils/logger';
@@ -24,6 +25,8 @@ const server = new Server({
 });
 
 const init = async () => {
+  await server.register(Inert);
+
   // Register routes
   const routes = await RouteLoader.load(path.join(__dirname, '/routes'));
   server.route(routes);
