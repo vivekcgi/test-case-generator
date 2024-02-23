@@ -1,8 +1,9 @@
 import axios from "axios";
 
 export const httpRequest = axios.create({
-  baseURL: "http://PSL-H8QN863:62215",
+  baseURL: "http://PSL-H8QN863:5000",
 });
+
 
 export const ImageConfig = {
     default: '../assets/file-blank-solid-240.png',
