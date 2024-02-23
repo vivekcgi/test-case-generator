@@ -1,10 +1,9 @@
-import React from 'react'
+import LoginForm from "../componensts/LoginForm"
 
 export default function LoginPage() {
   return (
     <>
-      <h1>LoginPage</h1>
-      <p className="lead">Login Form.</p>
+      <LoginForm/>
     </>
   )
 }
