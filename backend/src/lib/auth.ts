@@ -16,5 +16,6 @@ export const token = async () => {
         return response.data;
     } catch(e) {
         console.log(e);
+        throw new Error('Something went wrong while IAM authentication');
     }
 }

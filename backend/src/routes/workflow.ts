@@ -1,8 +1,8 @@
 import { Request, ResponseToolkit, ServerRoute } from '@hapi/hapi';
 import Joi from 'joi';
-import { readContent } from '../lib/file';
-import { generate } from '../lib/prompt';
-import { token } from '../lib/auth';
+import { WorkflowController } from '../controllers/workflow.controller';
+
+const workflowController = new WorkflowController();
 
 export const workflow: ServerRoute = {
   path: '/api/workflow/init',
@@ -15,9 +15,7 @@ export const workflow: ServerRoute = {
     }
   },
   handler: async (request: Request, h: ResponseToolkit) => {   
-    const fileContents = await readContent(request.query.filename);
-    const iamResponse = await token();
-    const data = await generate(iamResponse.access_token, fileContents);
-    return h.response(data).code(200);
+    const result = await workflowController.process(request.query.filename);
+    return h.response(result.data).code(result.code);
   },
 };
