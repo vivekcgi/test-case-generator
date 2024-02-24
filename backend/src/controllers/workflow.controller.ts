@@ -41,16 +41,25 @@ export class WorkflowController {
                 let currentObject = {};
                 let key = '';
 
-                generatedTextLines.forEach(line => {
-                    let processing_next_key = false;
-                    if (line.endsWith(':')) {
-                        processing_next_key = true;
-                        key = line.slice(0, -1).trim().toLowerCase().replace(/ /g, '_');
-                        currentObject[key] = '';
+                generatedTextLines.forEach((line, idx) => {
+                    if(idx === 0) {
+                        const d = line.split(':')
+                        const oneKey = d[0].trim().toLowerCase().replace(/ /g, '_');
+                        currentObject[oneKey] = d[1];
                     } else {
-                        currentObject[key] = currentObject[key] + line;
+                        let processing_next_key = false;
+                        if (line.endsWith(':')) {
+                            processing_next_key = true;
+                            key = line.slice(0, -1).trim().toLowerCase().replace(/ /g, '_');
+                            currentObject[key] = '';
+                        } else {
+                            currentObject[key] = currentObject[key] + line;
+                        }
                     }
+                    
                 });
+
+                
 
                 parsedResult.test_cases.push(currentObject);
                 parsedObject.results.push(parsedResult);

@@ -114,7 +114,7 @@ export const createIssue = async (token: string, instance: string, projectKey: s
             "project": {
                 "key": projectKey
             },
-            "summary": "Creating Test Case",
+            "summary": data.test_case_scenario,
             "description": jiraDoc,
             "issuetype": {
                 "name": issueType
