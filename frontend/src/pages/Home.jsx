@@ -43,8 +43,9 @@ export default function HomePage() {
                 setIsLoading(false);
                 //setSelectedFile(response.data.data.filename)
                 setIsDataPrepare(true);
-                httpRequest.post(`api/workflow/init?filename=${response.data.data.filename}`, {
-                    headers: {
+                // httpRequest.post(`api/workflow/init?filename=${response.data.data.filename}`, {
+                httpRequest.post(`api/workflow/init?filename=${response.data.data.filename}`, {   
+                headers: {
                     "Cache-Control": "no-cache",
                     "Content-Type": "application/x-www-form-urlencoded",
                     "Access-Control-Allow-Origin": "*",
