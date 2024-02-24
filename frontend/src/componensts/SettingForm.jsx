@@ -123,7 +123,7 @@ const SettingForm = () => {
 								<div className="mb-3">
 									<Form.Label>Project Token</Form.Label>
 									<Form.Control
-										type="text"
+										type="password"
 										name="projectToken"
 										value={values.projectToken}
 										onChange={handleChange}
@@ -135,7 +135,7 @@ const SettingForm = () => {
 								<div className="mb-3">
 									<Form.Label>Project Key</Form.Label>
 									<Form.Control
-										type="password"
+										type="text"
 										name="projectKey"
 										value={values.projectKey}
 										onChange={handleChange}

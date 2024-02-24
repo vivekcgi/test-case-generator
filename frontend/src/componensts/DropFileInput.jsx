@@ -53,9 +53,6 @@ const DropFileInput = props => {
             {
                 fileList.length > 0 ? (
                     <div className="drop-file-preview">
-                        <p className="drop-file-preview__title">
-                            Ready to upload
-                        </p>
                         {
                             fileList.map((item, index) => (
                                 <div key={index} className="drop-file-preview__item">

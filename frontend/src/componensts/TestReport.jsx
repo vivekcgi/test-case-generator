@@ -68,9 +68,22 @@ const TestReport = ({ reportData }) => {
                     draggable: true,
                     progress: undefined,
                     theme: "light",
-                    });
-			}
-			console.log(response);
+                });
+                return;
+			} else {
+                toast.error('Please try later', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }
+			
+            
 		}).catch((error) => {
 			console.log(error);
 		})
@@ -80,9 +93,8 @@ const TestReport = ({ reportData }) => {
         <div className="container-xl mt-4">
             <div className="row">
                 <div className="card mb-4">
-                    <div className="card-header d-flex justify-content-between">
-                    <ToastContainer />
-                        <p style={{ marginBottom: 0 }}>Generated Test Case</p>
+                    <div className="card-header d-flex justify-content-between" style={{alignItems:"center"}}>
+                        <p style={{ marginBottom: 0, fontSize: '20px' }}>Generated Test Case</p>
 						<DropdownButton id="dropdown-basic-button" title="Export">
 							<Dropdown.Item>
 								<ExportToExcel apiData={reportData} fileName="Generated test cases" />
@@ -93,6 +105,7 @@ const TestReport = ({ reportData }) => {
 						</DropdownButton> 
                     </div>
                     <div className="card-body">
+                        <ToastContainer />
                         <table className="table table-bordered">
                             <thead>
                                 <tr>
