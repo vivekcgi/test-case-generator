@@ -22,7 +22,7 @@ const SettingForm = () => {
 		projectToken: yup.string().required(),
 		projectKey: yup.string().required(),
 	});
-
+	
 	const onSubmit = async (values) => {
 		console.log(values);
 		setLoading(true);
@@ -50,23 +50,23 @@ const SettingForm = () => {
 		  });
 	}
 	// useEffect( ()=>{
-	// 	async function loadSettings(){
-	// 	await httpRequest.get("/api/config/jira").then(function (response) {
-	// 		if(response.status === 200) {
-	// 			toast("This is a custom toast Notification!", {
-	// 				position: "top-center",
-	// 				className: "toast-message",
-	// 			});
-	// 			console.log("get: ",response.data.data);
-	// 			setValues(response.data.data);
+		// 	async function loadSettings(){
+		// 	await httpRequest.get("/api/config/jira").then(function (response) {
+			// 		if(response.status === 200) {
+				// 			toast("This is a custom toast Notification!", {
+					// 				position: "top-center",
+					// 				className: "toast-message",
+				// 			});
+				// 			console.log("get: ",response.data.data);
+				// 			setValues(response.data.data);
 				
-	// 		}
+			// 		}
 	// 	  })
-	// 	  .catch(function (error) {
-	// 		setLoading(false);
-	// 		console.log(error);
-	// 	  });
-	// 	}
+		  // 	  .catch(function (error) {
+			// 		setLoading(false);
+			// 		console.log(error);
+		  // 	  });
+		// 	}
 	// 	loadSettings();
 	// },[])
 	// console.log(values.username)
@@ -80,7 +80,7 @@ const SettingForm = () => {
 							validationSchema={schema}
 							onSubmit={onSubmit}
 							initialValues={{
-								userName:'',
+							userName:'',
 								projectUrl:'',
 								projectToken:'',
 								projectKey: '',
@@ -127,7 +127,7 @@ const SettingForm = () => {
 								<div className="mb-3">
 									<Form.Label>Project Key</Form.Label>
 									<Form.Control
-										type="text"
+										type="password"
 										name="projectKey"
 										value={values.projectKey}
 										onChange={handleChange}

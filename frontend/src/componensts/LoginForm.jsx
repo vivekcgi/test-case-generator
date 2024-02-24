@@ -30,7 +30,7 @@ const LoginForm = () => {
                     progress: undefined,
                     theme: "light",
                     });
-                navigate('/setting');
+                navigate('/home');
                 localStorage.setItem("token", response.data.data.access_token);
                 console.log(response);
             })

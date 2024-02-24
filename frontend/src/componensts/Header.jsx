@@ -7,11 +7,11 @@ const Header = () => {
                 <div className="container container-fluid">
                     {token?
                     <Link className="navbar-brand" to="/home">
-                        TestGeni
+                        TestGenie
                     </Link>
                     :
                     <Link className="navbar-brand" to="/">
-                        TestGeni
+                        TestGenie
                     </Link>
                     }
                     <button

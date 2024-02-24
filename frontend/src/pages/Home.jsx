@@ -4,6 +4,7 @@ import DropFileInput from "../componensts/DropFileInput";
 import { useEffect, useState } from "react";
 import {ProgressBar } from "react-bootstrap";
 import Loading from '../componensts/Loading';
+import { IoHome } from "react-icons/io5";
 import axios from "axios";
 
 export default function HomePage() {
@@ -76,9 +77,13 @@ export default function HomePage() {
     console.log(data.length)
     return (
         <>
-            <h4>Home</h4>
-            <div className="container-xl mt-4">
-                <DropFileInput onFileChange={(files) => onFileChange(files)} />
+            <h4><IoHome /></h4>
+            <h5 style={{ textAlign: "center"}}> Welcome to TestGenie</h5>
+            <div className="container-sm mt-4">
+                <div  style={{margin: "0 auto",  width: "800px"}} >
+        <DropFileInput onFileChange={(files) => onFileChange(files)}/>
+    </div>
+                
                 {/* {progress  && <ProgressBar now={progress} label={`${progress}%`} />} */}
                 
                 {isLoading && <Loading msg="File uploading in progress..." />}
