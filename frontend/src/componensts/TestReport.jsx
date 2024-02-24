@@ -2,34 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { ExportToExcel } from './ExportToExcel';
 
-const TestReport = () => {
-     const [data, setData] = useState([])
-     const tableData = async () => {
-        try {
-            const tableDataResponse = await axios.get('http://localhost:5173/data/data.json', {
-                headers: {
-                  "Cache-Control": "no-cache",
-                  "Content-Type": "application/x-www-form-urlencoded",
-                  "Access-Control-Allow-Origin": "*",
-                },
-              });
-            setData(tableDataResponse.data.table)
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    useEffect(() => {
-        tableData();
-    }, []);
-    const customHeadings = data.map(item=> {
-        return {
-            "Test Scenarios":item.scenarios,
-            "Input Data":item.inputData,
-            "Expected Result":item.expectedOutput
-        }
-    })
-    
+const TestReport = ({reportData}) => {
+    const [data,setData] = useState(reportData);
   return (
     <div className="container-xl mt-4">
 		<div className="row">
@@ -37,27 +11,36 @@ const TestReport = () => {
 				<div className="card-header d-flex justify-content-between">
                     <p style={{marginBottom: 0}}>Generated Test Case</p>
                     {/* <button className="btn btn-primary" type="button">Export Excel File</button> */}
-                    <ExportToExcel apiData={customHeadings} fileName="myFile" />
+                     <ExportToExcel apiData={data} fileName="myFile" /> 
                 </div>
                 <div className='card-body'>
                     <table className="table table-bordered">
                         <thead>
                             <tr>
-                                <th>Test Scenarios</th>
+                                <th>Test number</th>
+                                <th>Test Case</th>
                                 <th>Input Data</th>
-                                <th>Expected Result</th>
+                                <th>Preconditions/Dependencies</th>
+                                <th>Steps</th>
+                                <th>Expected Output</th>
+                                <th>Response code</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {
-                                data.length>0 && data.map((item,index) => {
-                                    return (<tr key={index}>
-                                        <td>{item.scenarios}</td>
-                                        <td>{item.inputData}</td>
-                                        <td>{item.expectedOutput}</td>
-                                    </tr>)
-                               })
-                            }
+                        {
+                            data.map((item,index) => {
+                                return (
+                                <tr key={index}>
+                                    <td>{index}</td>
+                                    <td>{item.test_case_scenario}</td>
+                                    <td>{item.sample_input_data_in_json_format}</td>
+                                    <td>{item.preconditions_and_dependencies}</td>
+                                    <td>{item.testing_steps}</td>
+                                    <td>{item.sample_output_data_in_json_format}</td>
+                                    <td>{item.all_returned_output_status_codes}</td>
+                                </tr>)
+                            })
+                        }
                         </tbody>
                     </table>
                 </div>

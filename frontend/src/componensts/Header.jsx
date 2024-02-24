@@ -5,7 +5,7 @@ const Header = () => {
             <nav className="navbar navbar-expand-md navbar-dark bg-dark mb-1">
                 <div className="container container-fluid">
                     <Link className="navbar-brand" to="/">
-                        Hero Hack
+                       TestGeni
                     </Link>
                     <button
                         className="navbar-toggler"
