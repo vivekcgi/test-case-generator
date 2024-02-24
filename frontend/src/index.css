@@ -66,3 +66,20 @@ body {
   background: transparent;
   border: 0;
 }
+
+.homeHeader {
+  margin-bottom: 60px !important;
+}
+.homeHeader h1 {
+  font-size: 62px;
+  font-weight: bold;
+}
+
+.homeHeader h1 span {
+  color: #0d6efd;
+}
+
+.homeHeader p {
+  font-size: 18px;
+  font-style: italic;
+}
