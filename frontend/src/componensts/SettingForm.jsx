@@ -6,11 +6,14 @@ import { httpRequest } from '../utils/utils';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Form from 'react-bootstrap/Form';
+import { useNavigate } from "react-router-dom";
 
 const SettingForm = () => {
 	const [success, setSuccess] = useState(null);
 	const [error, setError] = useState(null);
 	const [isLoading, setLoading] = useState(false);
+	// const [values,setValues] = useState({});
+	const navigate = useNavigate();
 	const { Formik } = formik;
 
 	const schema = yup.object().shape({
@@ -35,10 +38,10 @@ const SettingForm = () => {
 					position: "top-center",
 					className: "toast-message",
 				});
-
+				
 				console.log(response.data)
 				localStorage.setItem('setting', response.data)
-				
+				navigate('/home');
 			}
 		  })
 		  .catch(function (error) {
@@ -46,7 +49,27 @@ const SettingForm = () => {
 			console.log(error);
 		  });
 	}
-	
+	// useEffect( ()=>{
+	// 	async function loadSettings(){
+	// 	await httpRequest.get("/api/config/jira").then(function (response) {
+	// 		if(response.status === 200) {
+	// 			toast("This is a custom toast Notification!", {
+	// 				position: "top-center",
+	// 				className: "toast-message",
+	// 			});
+	// 			console.log("get: ",response.data.data);
+	// 			setValues(response.data.data);
+				
+	// 		}
+	// 	  })
+	// 	  .catch(function (error) {
+	// 		setLoading(false);
+	// 		console.log(error);
+	// 	  });
+	// 	}
+	// 	loadSettings();
+	// },[])
+	// console.log(values.username)
 	return (
 		<div className="container-xl mt-4">
 			<div className="row">
