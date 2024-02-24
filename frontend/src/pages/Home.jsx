@@ -1,26 +1,15 @@
 import TestReport from "../componensts/TestReport";
 import { httpRequest } from "../utils/utils";
 import DropFileInput from "../componensts/DropFileInput";
-import { useEffect, useState } from "react";
-import {ProgressBar } from "react-bootstrap";
+import {useState } from "react";
 import Loading from '../componensts/Loading';
 import axios from "axios";
 
 export default function HomePage() {
     const [isLoading, setIsLoading] = useState(false);
     const [isDataPrepare, setIsDataPrepare] = useState(false)
-    const [progress, setProgress] = useState();
-    const [selectedFile, setSelectedFile] = useState();
     const [data, setData] = useState([])
 
-    const tableData = async () => {
-        
-    };
-
-    // useEffect(() => {
-    //    selectedFile && tableData();
-    // }, [selectedFile]);
-  
     const onFileChange = (files) => {
         let tempName = files.name;
         const formData = new FormData();
@@ -32,11 +21,6 @@ export default function HomePage() {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
-                onUploadProgress: data => {
-                    //console.log(data)
-                    //Set the progress value to show the progress bar
-                    setProgress(Math.round((100 * data.loaded) / data.total))
-                }
             })
             .then((response) => {
                 // handle the response
@@ -54,17 +38,6 @@ export default function HomePage() {
                     setIsDataPrepare(false);
                     setData(response.data.data.results[0].test_cases)
                 })
-
-                // try {
-                //     console.log(`api/workflow/init?filename=${response.data.data.filename}`)
-                //     const tableDataResponse = ;
-                //     if(tableDataResponse.status === 200){
-                //         setIsDataPrepare(false)
-                //         console.log(tableDataResponse)
-                //     }
-                // } catch (error) {
-                //     console.log(error);
-                // }
             })
             .catch((error) => {
                 // handle errors
@@ -79,8 +52,6 @@ export default function HomePage() {
             <h4>Home</h4>
             <div className="container-xl mt-4">
                 <DropFileInput onFileChange={(files) => onFileChange(files)} />
-                {/* {progress  && <ProgressBar now={progress} label={`${progress}%`} />} */}
-                
                 {isLoading && <Loading msg="File uploading in progress..." />}
                 {isDataPrepare && <Loading msg="Test data generation in progress..."/>}
                 {data.length > 0 && <TestReport reportData={data}/>}
