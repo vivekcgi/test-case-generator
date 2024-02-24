@@ -69,6 +69,9 @@ body {
 
 .homeHeader {
   margin-bottom: 60px !important;
+  margin-top: 40px !important;
+  text-align: center;
+  font-weight: bold;
 }
 .homeHeader h1 {
   font-size: 62px;
