@@ -10,11 +10,11 @@ import axios from "axios";
 export default function HomePage() {
     const [isLoading, setIsLoading] = useState(false);
     const [isDataPrepare, setIsDataPrepare] = useState(false)
-    const [progress, setProgress] = useState();
+const [progress, setProgress] = useState();
     const [selectedFile, setSelectedFile] = useState();
     const [data, setData] = useState([])
 
-    const tableData = async () => {
+const tableData = async () => {
         
     };
 
@@ -33,7 +33,7 @@ export default function HomePage() {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
-                onUploadProgress: data => {
+onUploadProgress: data => {
                     //console.log(data)
                     //Set the progress value to show the progress bar
                     setProgress(Math.round((100 * data.loaded) / data.total))
