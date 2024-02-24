@@ -1,0 +1,31 @@
+{
+    "model_id": "ibm-mistralai/mixtral-8x7b-instruct-v01-q",
+    "created_at": "2024-02-23T15:17:30.911Z",
+    "results": [
+        {
+            "generated_token_count": 432,
+            "input_token_count": 368,
+            "stop_reason": "eos_token",
+            "test_cases": [
+                {
+                    "test_case_scenario": "Add a new pet to the store.",
+                    "sample_input_data_in_json_format": "{  \"id\": 0,  \"category\": {    \"id\": 0,    \"name\": \"string\"  },  \"name\": \"string\",  \"photoUrls\": [    \"string\"  ],  \"tags\": [    {      \"id\": 0,      \"name\": \"string\"    }  ],  \"status\": \"available\"}",
+                    "preconditions_and_dependencies": "1. The user should have a valid account with the API.2. The user should have the required permissions to add a new pet.",
+                    "testing_steps": "1. Send a POST request to the \"/pet\" endpoint with the input data in the request body.2. Verify that the response status code is either 200, 400 or 422.3. If the status code is 200, verify that the response body contains the newly added pet.4. If the status code is 400, verify that the response body contains an error message indicating the invalid input.5. If the status code is 422, verify that the response body contains an error message indicating the validation exception.",
+                    "sample_output_data_in_json_format": "{  \"id\": 0,  \"category\": {    \"id\": 0,    \"name\": \"string\"  },  \"name\": \"string\",  \"photoUrls\": [    \"string\"  ],  \"tags\": [    {      \"id\": 0,      \"name\": \"string\"    }  ],  \"status\": \"available\"}",
+                    "all_returned_output_status_codes": "200: Successful operation400: Invalid input422: Validation exception"
+                }
+            ]
+        }
+    ],
+    "system": {
+        "warnings": [
+            {
+                "message": "This model is a Non-IBM Product governed by a third-party license that may impose use restrictions and other obligations. By using this model you agree to its terms as identified in the following URL.",
+                "id": "disclaimer_warning",
+                "more_info": "https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/fm-models.html?context=wx"
+            }
+        ]
+    }
+  }
+  

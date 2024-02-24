@@ -85,10 +85,10 @@ const TestReport = ({ reportData }) => {
                         <p style={{ marginBottom: 0 }}>Generated Test Case</p>
 						<DropdownButton id="dropdown-basic-button" title="Export">
 							<Dropdown.Item>
-								<ExportToExcel apiData={reportData} fileName="myFile" />
+								<ExportToExcel apiData={reportData} fileName="Generated test cases" />
 							</Dropdown.Item>
 							<Dropdown.Item>
-								<button type="button" onClick={(e) => generateJira(reportData)} className="exportBtn">Jira Ticket</button>
+								<button type="button" onClick={(e) => generateJira(reportData)}>Jira Ticket</button>
 							</Dropdown.Item>
 						</DropdownButton> 
                     </div>
@@ -120,12 +120,14 @@ const TestReport = ({ reportData }) => {
                                                 </code>
                                             </td>
                                             <td>
-                                                {splitter(
+                                                {
+                                               item.preconditions_and_dependencies &&  splitter(
                                                     item.preconditions_and_dependencies
-                                                )}
+                                                )
+                                                }
                                             </td>
                                             <td>
-                                                {splitter(item.testing_steps,true)}
+                                                {item.testing_steps && splitter(item.testing_steps,true)}
                                             </td>
                                             <td>
                                                 <code>
