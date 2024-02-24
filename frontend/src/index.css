@@ -86,3 +86,8 @@ body {
   font-size: 18px;
   font-style: italic;
 }
+
+code {
+  width: 150px;
+  display: block;
+}
