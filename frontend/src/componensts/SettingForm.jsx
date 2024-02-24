@@ -3,7 +3,8 @@ import { useState } from 'react';
 import * as formik from 'formik';
 import * as yup from 'yup';
 import { httpRequest } from '../utils/utils';
-import Button from 'react-bootstrap/Button';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Form from 'react-bootstrap/Form';
 
 const SettingForm = () => {
@@ -29,7 +30,16 @@ const SettingForm = () => {
 			projectKey: values.projectKey
 		}).then(function (response) {
 			setLoading(false);
-			console.log(response);
+			if(response.status === 200) {
+				toast("This is a custom toast Notification!", {
+					position: "top-center",
+					className: "toast-message",
+				});
+
+				console.log(response.data)
+				localStorage.setItem('setting', response.data)
+				
+			}
 		  })
 		  .catch(function (error) {
 			setLoading(false);

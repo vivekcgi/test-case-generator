@@ -1,11 +1,11 @@
-import React from 'react'
-import SettingForm from '../componensts/SettingForm';
+import React from "react";
+import SettingForm from "../componensts/SettingForm";
 
 export default function SettingPage() {
-  return (
-    <>
-      <h1>Connect with Jira</h1>
-      <SettingForm />
-    </>
-  )
+    return (
+        <>
+            <h1>Connect with Jira</h1>
+            <SettingForm />
+        </>
+    );
 }
