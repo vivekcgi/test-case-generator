@@ -1,5 +1,5 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import * as formik from 'formik';
 import * as yup from 'yup';
 import { httpRequest } from '../utils/utils';
@@ -12,7 +12,11 @@ const SettingForm = () => {
 	const [success, setSuccess] = useState(null);
 	const [error, setError] = useState(null);
 	const [isLoading, setLoading] = useState(false);
-	// const [values,setValues] = useState({});
+	const [jvalues,setJvalues] = useState({username:'',
+	instanceUrl:'',
+		token:'',
+		projectKey: '',
+	});
 	const navigate = useNavigate();
 	const { Formik } = formik;
 
@@ -49,26 +53,29 @@ const SettingForm = () => {
 			console.log(error);
 		  });
 	}
-	// useEffect( ()=>{
-		// 	async function loadSettings(){
-		// 	await httpRequest.get("/api/config/jira").then(function (response) {
-			// 		if(response.status === 200) {
-				// 			toast("This is a custom toast Notification!", {
-					// 				position: "top-center",
-					// 				className: "toast-message",
-				// 			});
-				// 			console.log("get: ",response.data.data);
-				// 			setValues(response.data.data);
+	useEffect( ()=>{
+			async function loadSettings(){
+			await httpRequest.get("/api/config/jira").then(function (response) {
+					if(response.status === 200) {
+							toast("This is a custom toast Notification!", {
+									position: "top-center",
+									className: "toast-message",
+							});
+							// console.log("get: ",response.data.data);
+							setJvalues({instanceUrl:response.data.data.instanceUrl,
+								projectKey: response.data.data.projectKey,
+								token: response.data.data.token,
+								username: response.data.data.username});
 				
-			// 		}
-	// 	  })
-		  // 	  .catch(function (error) {
-			// 		setLoading(false);
-			// 		console.log(error);
-		  // 	  });
-		// 	}
-	// 	loadSettings();
-	// },[])
+					}
+		  })
+		  	  .catch(function (error) {
+					setLoading(false);
+					console.log(error);
+		  	  });
+			}
+		loadSettings();
+	},[])
 	// console.log(values.username)
 	return (
 		<div className="container-xl mt-4">
@@ -80,11 +87,12 @@ const SettingForm = () => {
 							validationSchema={schema}
 							onSubmit={onSubmit}
 							initialValues={{
-							userName:'',
-								projectUrl:'',
-								projectToken:'',
-								projectKey: '',
+								userName:jvalues.username,
+								projectUrl:jvalues.instanceUrl,
+								projectToken:jvalues.token,
+								projectKey: jvalues.projectKey,
 							}}
+							enableReinitialize
 						>
 						{({ handleSubmit, handleChange, values, errors }) => (
 							<Form noValidate onSubmit={handleSubmit}>
