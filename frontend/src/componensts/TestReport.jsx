@@ -3,20 +3,30 @@ import { ExportToExcel } from "./ExportToExcel";
 import { httpRequest } from "../utils/utils";
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const TestReport = ({ reportData }) => {
 	const [isLoading, setIsLoading] = useState(false);
-    const splitter = (input) => {
+    const splitter = (input,numbers) => {
         const listingArray = input
             .split(/\d+\./)
             .filter((sentence) => sentence.trim() !== "");
         return (
-            <ul>
+            (numbers===true)?
+                <ol>
                 {listingArray.map((item, index) => {
-                    return <li key={index}>{item}</li>;
-                })}
+                                            return <li key={index}>{item}</li>;
+                                    })}
+            </ol>
+            
+           :
+                <ul>
+                {listingArray.map((item, index) => {
+                                            return <li key={index}>{item}</li>;
+                                    })}
             </ul>
-        );
+                    );
     };
 
     const getStatus = (input) => {
@@ -48,7 +58,17 @@ const TestReport = ({ reportData }) => {
 		setIsLoading(true);
         httpRequest.post("api/jira/export", {tests:data}).then((response)=> {
 			if(response.status===200) {
-				setIsLoading(true);
+				setIsLoading(false);
+                toast.success(' Ticket generated Successfully!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    });
 			}
 			console.log(response);
 		}).catch((error) => {
@@ -61,6 +81,7 @@ const TestReport = ({ reportData }) => {
             <div className="row">
                 <div className="card mb-4">
                     <div className="card-header d-flex justify-content-between">
+                    <ToastContainer />
                         <p style={{ marginBottom: 0 }}>Generated Test Case</p>
 						<DropdownButton id="dropdown-basic-button" title="Export">
 							<Dropdown.Item>
@@ -104,7 +125,7 @@ const TestReport = ({ reportData }) => {
                                                 )}
                                             </td>
                                             <td>
-                                                {splitter(item.testing_steps)}
+                                                {splitter(item.testing_steps,true)}
                                             </td>
                                             <td>
                                                 <code>
