@@ -74,21 +74,30 @@
                                         },
                                         "schema": {
                                             "type": "object",
-                                            "patternProperties": {
-                                                "^[a-zA-Z0-9_-]+$": {
+                                            "properties": {
+                                                "type": {
+                                                    "type": "string"
+                                                },
+                                                "properties": {
                                                     "type": "object",
-                                                    "properties": {
-                                                        "type": {
-                                                            "type": "string"
-                                                        },
-                                                        "required": {
-                                                            "type": "boolean"
-                                                        },
-                                                        "example": {}
-                                                    },
-                                                    "additionalProperties": true
+                                                    "patternProperties": {
+                                                        "^[a-zA-Z0-9_-]+$": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "type": {
+                                                                    "type": "string"
+                                                                },
+                                                                "required": {
+                                                                    "type": "boolean"
+                                                                },
+                                                                "example": {}
+                                                            },
+                                                            "additionalProperties": true
+                                                        }
+                                                    }
                                                 }
-                                            }
+                                            },
+                                            "additionalProperties": true
                                         }
                                     },
                                     "required": [
