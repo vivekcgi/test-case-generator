@@ -1,215 +1,224 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "type": "object",
-    "properties": {
-        "gqlapi": {
-            "type": "string"
-        },
-        "info": {
-            "type": "object",
-            "properties": {
-                "title": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "version": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "title",
-                "description",
-                "version"
-            ]
-        },
-        "queries": {
-            "type": "object",
-            "patternProperties": {
-                "^[a-zA-Z0-9_-]+$": {
-                    "type": "object",
-                    "properties": {
-                        "tags": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        },
-                        "summary": {
-                            "type": "string"
-                        },
-                        "description": {
-                            "type": "string"
-                        },
-                        "variables": {
-                            "type": "object",
-                            "patternProperties": {
-                                "^[a-zA-Z0-9_-]+$": {
-                                    "type": "object",
-                                    "properties": {
-                                        "type": {
-                                            "type": "string"
-                                        },
-                                        "required": {
-                                            "type": "boolean"
-                                        },
-                                        "example": {}
-                                    },
-                                    "additionalProperties": true
-                                }
-                            }
-                        },
-                        "output": {
-                            "type": "object",
-                            "patternProperties": {
-                                "^[1-5][0-9][0-9]$": {
-                                    "type": "object",
-                                    "properties": {
-                                        "description": {
-                                            "type": "string"
-                                        },
-                                        "contentType": {
-                                            "type": "string"
-                                        },
-                                        "schema": {
-                                            "type": "object",
-                                            "properties": {
-                                                "type": {
-                                                    "type": "string"
-                                                },
-                                                "properties": {
-                                                    "type": "object",
-                                                    "patternProperties": {
-                                                        "^[a-zA-Z0-9_-]+$": {
-                                                            "type": "object",
-                                                            "properties": {
-                                                                "type": {
-                                                                    "type": "string"
-                                                                },
-                                                                "required": {
-                                                                    "type": "boolean"
-                                                                },
-                                                                "example": {}
-                                                            },
-                                                            "additionalProperties": true
-                                                        }
-                                                    }
-                                                }
-                                            },
-                                            "additionalProperties": true
-                                        }
-                                    },
-                                    "required": [
-                                        "description"
-                                    ]
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "mutations": {
-            "type": "object",
-            "patternProperties": {
-                "^[a-zA-Z0-9_-]+$": {
-                    "type": "object",
-                    "properties": {
-                        "tags": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        },
-                        "summary": {
-                            "type": "string"
-                        },
-                        "description": {
-                            "type": "string"
-                        },
-                        "variables": {
-                            "type": "object",
-                            "patternProperties": {
-                                "^[a-zA-Z0-9_-]+$": {
-                                    "type": "object",
-                                    "properties": {
-                                        "type": {
-                                            "type": "string"
-                                        },
-                                        "required": {
-                                            "type": "boolean"
-                                        },
-                                        "properties": {
-                                            "type": "object",
-                                            "patternProperties": {
-                                                "^[a-zA-Z0-9_-]+$": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "type": {
-                                                            "type": "string"
-                                                        },
-                                                        "required": {
-                                                            "type": "boolean"
-                                                        },
-                                                        "example": {}
-                                                    },
-                                                    "additionalProperties": true
-                                                }
-                                            }
-                                        },
-                                        "example": {}
-                                    },
-                                    "additionalProperties": true
-                                }
-                            }
-                        },
-                        "output": {
-                            "type": "object",
-                            "patternProperties": {
-                                "^[1-5][0-9][0-9]$": {
-                                    "type": "object",
-                                    "properties": {
-                                        "description": {
-                                            "type": "string"
-                                        },
-                                        "contentType": {
-                                            "type": "string"
-                                        },
-                                        "schema": {
-                                            "type": "object",
-                                            "patternProperties": {
-                                                "^[a-zA-Z0-9_-]+$": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "type": {
-                                                            "type": "string"
-                                                        },
-                                                        "required": {
-                                                            "type": "boolean"
-                                                        },
-                                                        "example": {}
-                                                    },
-                                                    "additionalProperties": true
-                                                }
-                                            }
-                                        }
-                                    },
-                                    "required": [
-                                        "description"
-                                    ]
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "gqlapi": {
+      "type": "string"
     },
-    "required": [
-        "gqlapi",
-        "info",
-        "queries",
-        "mutations"
-    ]
+    "info": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "description",
+        "version"
+      ]
+    },
+    "queries": {
+      "type": "object",
+      "patternProperties": {
+        "^[a-zA-Z0-9_-]+$": {
+          "type": "object",
+          "properties": {
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "summary": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "variables": {
+              "type": "object",
+              "patternProperties": {
+                "^[a-zA-Z0-9_-]+$": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "required": {
+                      "type": "boolean"
+                    },
+                    "example": {}
+                  },
+                  "additionalProperties": true
+                }
+              }
+            },
+            "output": {
+              "type": "object",
+              "patternProperties": {
+                "^[1-5][0-9][0-9]$": {
+                  "type": "object",
+                  "properties": {
+                    "description": {
+                      "type": "string"
+                    },
+                    "contentType": {
+                      "type": "string"
+                    },
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string"
+                        },
+                        "properties": {
+                          "type": "object",
+                          "patternProperties": {
+                            "^[a-zA-Z0-9_-]+$": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string"
+                                },
+                                "required": {
+                                  "type": "boolean"
+                                },
+                                "example": {}
+                              },
+                              "additionalProperties": true
+                            }
+                          }
+                        }
+                      },
+                      "additionalProperties": true
+                    }
+                  },
+                  "required": [
+                    "description"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "mutations": {
+      "type": "object",
+      "patternProperties": {
+        "^[a-zA-Z0-9_-]+$": {
+          "type": "object",
+          "properties": {
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "summary": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "variables": {
+              "type": "object",
+              "patternProperties": {
+                "^[a-zA-Z0-9_-]+$": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "required": {
+                      "type": "boolean"
+                    },
+                    "properties": {
+                      "type": "object",
+                      "patternProperties": {
+                        "^[a-zA-Z0-9_-]+$": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string"
+                            },
+                            "required": {
+                              "type": "boolean"
+                            },
+                            "example": {}
+                          },
+                          "additionalProperties": true
+                        }
+                      }
+                    },
+                    "example": {}
+                  },
+                  "additionalProperties": true
+                }
+              }
+            },
+            "output": {
+              "type": "object",
+              "patternProperties": {
+                "^[1-5][0-9][0-9]$": {
+                  "type": "object",
+                  "properties": {
+                    "description": {
+                      "type": "string"
+                    },
+                    "contentType": {
+                      "type": "string"
+                    },
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string"
+                        },
+                        "properties": {
+                          "type": "object",
+                          "patternProperties": {
+                            "^[a-zA-Z0-9_-]+$": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string"
+                                },
+                                "required": {
+                                  "type": "boolean"
+                                },
+                                "example": {}
+                              },
+                              "additionalProperties": true
+                            }
+                          }
+                        }
+                      },
+                      "additionalProperties": true
+                    }
+                  },
+                  "required": [
+                    "description"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "gqlapi",
+    "info",
+    "queries",
+    "mutations"
+  ]
 }
