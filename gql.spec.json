@@ -18,11 +18,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "title",
-        "description",
-        "version"
-      ]
+      "required": ["title", "description", "version"]
     },
     "queries": {
       "type": "object",
@@ -48,12 +44,8 @@
                 "^[a-zA-Z0-9_-]+$": {
                   "type": "object",
                   "properties": {
-                    "type": {
-                      "type": "string"
-                    },
-                    "required": {
-                      "type": "boolean"
-                    },
+                    "type": { "type": "string" },
+                    "required": { "type": "boolean" },
                     "example": {}
                   },
                   "additionalProperties": true
@@ -73,7 +65,7 @@
                       "type": "string"
                     },
                     "schema": {
-                      "type": "object",
+                      "type": ["object", "array", "string", "integer", "boolean"],
                       "properties": {
                         "type": {
                           "type": "string"
@@ -84,25 +76,22 @@
                             "^[a-zA-Z0-9_-]+$": {
                               "type": "object",
                               "properties": {
-                                "type": {
-                                  "type": "string"
-                                },
-                                "required": {
-                                  "type": "boolean"
-                                },
+                                "type": { "type": "string" },
                                 "example": {}
                               },
                               "additionalProperties": true
                             }
                           }
+                        },
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": true
                         }
                       },
                       "additionalProperties": true
                     }
                   },
-                  "required": [
-                    "description"
-                  ]
+                  "required": ["description"]
                 }
               }
             }
@@ -134,24 +123,16 @@
                 "^[a-zA-Z0-9_-]+$": {
                   "type": "object",
                   "properties": {
-                    "type": {
-                      "type": "string"
-                    },
-                    "required": {
-                      "type": "boolean"
-                    },
+                    "type": { "type": "string" },
+                    "required": { "type": "boolean" },
                     "properties": {
                       "type": "object",
                       "patternProperties": {
                         "^[a-zA-Z0-9_-]+$": {
                           "type": "object",
                           "properties": {
-                            "type": {
-                              "type": "string"
-                            },
-                            "required": {
-                              "type": "boolean"
-                            },
+                            "type": { "type": "string" },
+                            "required": { "type": "boolean" },
                             "example": {}
                           },
                           "additionalProperties": true
@@ -177,7 +158,7 @@
                       "type": "string"
                     },
                     "schema": {
-                      "type": "object",
+                      "type": ["object", "array", "string", "integer", "boolean"],
                       "properties": {
                         "type": {
                           "type": "string"
@@ -188,25 +169,22 @@
                             "^[a-zA-Z0-9_-]+$": {
                               "type": "object",
                               "properties": {
-                                "type": {
-                                  "type": "string"
-                                },
-                                "required": {
-                                  "type": "boolean"
-                                },
+                                "type": { "type": "string" },
                                 "example": {}
                               },
                               "additionalProperties": true
                             }
                           }
+                        },
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": true
                         }
                       },
                       "additionalProperties": true
                     }
                   },
-                  "required": [
-                    "description"
-                  ]
+                  "required": ["description"]
                 }
               }
             }
@@ -215,10 +193,5 @@
       }
     }
   },
-  "required": [
-    "gqlapi",
-    "info",
-    "queries",
-    "mutations"
-  ]
+  "required": ["gqlapi", "info", "queries", "mutations"]
 }
