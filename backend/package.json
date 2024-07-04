@@ -9,11 +9,16 @@
     "start": "node dist/index.js",
     "build": "tsc -b tsconfig.json",
     "format:check": "prettier --check ./*/**/*.ts",
-    "format:write": "prettier --write ./*/**/*.ts"
+    "format:write": "prettier --write ./*/**/*.ts",
+    "migrate:make": "npx knex --knexfile knexfile.ts migrate:make",
+    "migrate:latest": "npx knex migrate:latest --knexfile knexfile.ts",
+    "migrate:rollback": "knex migrate:rollback --knexfile knexfile.ts ",
+    "postinstall": "node-config-ts"
   },
   "author": "Vivek K",
   "license": "ISC",
   "devDependencies": {
+    "@types/bull": "^4.10.0",
     "@types/glob": "^8.1.0",
     "@types/hapi": "^18.0.8",
     "@types/hapi__joi": "^17.1.9",
@@ -38,10 +43,14 @@
     "@hapi/hapi": "^21.3.2",
     "@hapi/inert": "^7.1.0",
     "axios": "^1.6.7",
+    "bull": "^4.15.0",
     "dotenv": "^16.4.5",
     "glob": "^10.2.6",
     "joi": "^17.9.2",
+    "knex": "^3.1.0",
     "lodash": "^4.17.21",
+    "objection": "^3.1.4",
+    "pg": "^8.12.0",
     "winston": "^3.9.0"
   },
   "resolutions": {

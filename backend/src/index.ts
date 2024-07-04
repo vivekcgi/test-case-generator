@@ -1,11 +1,13 @@
 import './utils/dotenv';
 import { Server } from '@hapi/hapi';
-import Inert from '@hapi/inert'
+import Inert from '@hapi/inert';
 import path from 'path';
 import { config } from './config/config';
 import { logger } from './utils/logger';
 import { ResponseHelper } from './utils/response-helper';
 import { RouteLoader } from './utils/routes-loader';
+import { scheduler } from './pipelines/lib/scheduler';
+import './utils/db';
 
 const server = new Server({
   port: config.port,
@@ -33,6 +35,8 @@ const init = async () => {
 
   await server.start();
   logger.info(`server started at ${server.info.uri}`, server.info);
+
+  scheduler.add({ name: 'test', data: { message: 'This is test message' } });
 };
 
 process.on('SIGINT', (err) => {
