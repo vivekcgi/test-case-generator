@@ -23,12 +23,12 @@ export const config = {
   ibm: {
     watsonx: {
       projectId: process.env.WSX_PROJECT_ID,
-      modelId: process.env.WSX_MODEL_ID,
-      modelApi: process.env.WSX_MODEL_API,
+      modelId: String(process.env.WSX_MODEL_ID),
+      modelApi: String(process.env.WSX_MODEL_API),
     },
     iam: {
       tokenUrl: process.env.IAM_TOKEN_URL,
-      apiKey: process.env.IAM_API_KEY,
+      apiKey: String(process.env.IAM_API_KEY),
     },
   },
   redis: {
