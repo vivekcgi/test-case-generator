@@ -36,7 +36,16 @@ const init = async () => {
   await server.start();
   logger.info(`server started at ${server.info.uri}`, server.info);
 
-  scheduler.add({ name: 'test', data: { message: 'This is test message' } });
+  // scheduler.add({ name: 'test', data: { message: 'This is test message' } });
+  // scheduler.add({
+  //   name: 'documentation',
+  //   data: {
+  //     requestId: '726286cc-ea46-4774-b9ac-afb9d2c1a3cf', //'f773dfab-b046-4375-b981-aee077bfc225', // '726286cc-ea46-4774-b9ac-afb9d2c1a3cf',
+  //     filename: 'sysml1.yaml',
+  //     type: 'gql',
+  //     message: 'This is test message',
+  //   },
+  // });
 };
 
 process.on('SIGINT', (err) => {

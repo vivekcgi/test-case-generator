@@ -1,5 +1,5 @@
 // import { getSplitter, splitterType } from '../modules';
-// import { Request } from '../models/Requests';
+import { Request } from '../models/Requests';
 // import { Fragment } from '../models/Fragments';
 // import { GenResult } from '../models/Results';
 // import { v4 as uuid4 } from 'uuid';
