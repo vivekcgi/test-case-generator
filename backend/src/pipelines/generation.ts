@@ -1,41 +1,53 @@
 import queue from 'async/queue';
 import autoInject from 'async/autoInject';
-import { Request, GenResult, Fragment } from '../models';
+import { Request, GenResult, Fragment, GenError } from '../models';
 import { getPrompt } from '../modules';
 
 var q = queue((task, callback) => {
-  // console.log('hello ' + JSON.stringify(task));
   autoInject(
     {
       generate: async (callback) => {
-        // async code to get some data
+        // get the appropriate propmt to process the fragment
+        // submit the prompt to the model to generate the result
         try {
           const prompt = getPrompt(task.data.type);
           const result = await prompt.generate(task.data.fragment.data);
           callback(null, result.results[0].generated_text);
         } catch (e: any) {
-          callback(e.message, null);
+          callback(
+            {
+              message:
+                'Something went wrong while generating the test case data. Please retry later',
+              error: e,
+            },
+            null,
+          );
         }
       },
       save: async (generate, callback) => {
-        // async code to create a directory to store a file in
-        // this is run at the same time as getting the data
+        // save the generated data into the databse
+        // if there is any error, return it to the main process
         // console.log('generated result => ', generate);
         try {
           const data = await GenResult.query().insert({
             fragmentId: task.data.fragment.id,
             data: generate,
           });
-          console.log('fragment saved: ', data);
+          // console.log('fragment saved: ', data);
           callback(null, data);
         } catch (e: any) {
-          // TODO: save the error into the database
-          callback(e.message, null);
+          callback(
+            {
+              message:
+                'Result generated for this endpoint is incomplete or partial. Please retry later',
+              error: e,
+            },
+            null,
+          );
         }
       },
     },
     function (error, data) {
-      //   console.log(data);
       callback(error, data);
     },
   );
@@ -55,19 +67,27 @@ export const generation = async (job: any, done: any) => {
     // console.log('==========onefragment==========');
     // console.log(oneFragment.data);
     const newjob = { data: { ...job.data, fragment: oneFragment } };
-    q.push(newjob, async (error, data) => {
-      if (error) {
-        console.log(error);
-        // TODO:
+    q.push(newjob, async (err, data) => {
+      if (err) {
         // 1. save the error stack into the database for the failed fragment at the each stage (generate / save)
         // 2. in order to get the stage, return it from the callback from each stage
+
+        await GenError.query().insert({
+          fragmentId: oneFragment.id,
+          message: err.message,
+          data: {
+            actualError: err.error.message,
+            stack: `${err.error}`,
+            genResponse: data.generate,
+          },
+        });
 
         await Fragment.query().updateAndFetchById(oneFragment.id, {
           requestId: oneFragment.requestId,
           status: 'FAILED',
         });
       }
-      if (data) {
+      if (data.save) {
         // console.log('========Main=======');
         // console.log(data);
         await Fragment.query().updateAndFetchById(newjob.data.fragment.id, {
