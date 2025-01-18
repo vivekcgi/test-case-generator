@@ -1,4 +1,4 @@
-FROM node:lts-alpine AS BASE
+FROM node:lts AS BASE
 WORKDIR /app
 COPY . .
 RUN npm update \
