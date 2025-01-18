@@ -31,9 +31,9 @@ jobs:
       run: |
         COMMIT_SHA=$(echo $GITHUB_SHA | cut -c1-7)
         docker build -t ${{ secrets.DOCKER_USERNAME }}/tsg-server:$COMMIT_SHA ./backend
-        docker tag ${{ secrets.DOCKER_USERNAME }}/tsg-server:$COMMIT_SHA
+        docker tag ${{ secrets.DOCKER_USERNAME }}/tsg-server:$COMMIT_SHA ${{ secrets.DOCKER_USERNAME }}/tsg-server:$COMMIT_SHA
 
     - name: Push image to docker
       run: |
         COMMIT_SHA=$(echo $GITHUB_SHA | cut -c1-7)
-        docker push ${{ secrets.DOCKER_USERNAME }}/tsg-server:$COMMIT_SHA ${{ secrets.DOCKER_USERNAME }}/tsg-server:$COMMIT_SHA
+        docker push ${{ secrets.DOCKER_USERNAME }}/tsg-server:$COMMIT_SHA
