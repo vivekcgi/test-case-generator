@@ -12,6 +12,7 @@ var q = queue((task, callback) => {
         try {
           const prompt = getPrompt(task.data.type);
           const result = await prompt.generate(task.data.fragment.data);
+          console.log('result => ', result);
           callback(null, result.results[0].generated_text);
         } catch (e: any) {
           callback(
@@ -59,9 +60,10 @@ export const generation = async (job: any, done: any) => {
     .findById(job.data.requestId)
     .modifiers({
       onlyPending(builder) {
-        builder.where('status', 'PENDING');
+        builder.where('status', 'PENDING').orWhere('status', 'FAILED');
       },
     });
+  RequestPipelineHelper.init(request as Request);
 
   for (let oneFragment of request?.fragments || []) {
     // console.log('==========onefragment==========');
@@ -95,12 +97,35 @@ export const generation = async (job: any, done: any) => {
           status: 'COMPLETED',
         });
       }
-    });
 
-    // TODO:
-    // 1. track all the jobs for its completion / failure
-    // 2. if all the jobs are done, change the status of the request to COMPLETED
+      // 1. track all the jobs for its completion / failure
+      // 2. if all the jobs are done, change the status of the request to COMPLETED
+      RequestPipelineHelper.postFragmentProcessing(oneFragment.id);
+
+      if (RequestPipelineHelper.isPipelineCompleted()) {
+        console.log(`generation pipeline completed for request id ${job.data.requestId}...`);
+        await Request.query().updateAndFetchById(job.data.requestId, {
+          status: 'COMPLETED',
+        });
+      }
+    });
   }
 
   done();
 };
+
+class RequestPipelineHelper {
+  private static request: Request;
+  private static fragments: Array<string> = [];
+  static init(request: Request) {
+    this.request = request;
+  }
+
+  static postFragmentProcessing(id) {
+    this.fragments.push(id);
+  }
+
+  static isPipelineCompleted() {
+    return this.request.fragments.length === this.fragments.length;
+  }
+}

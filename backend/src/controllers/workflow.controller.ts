@@ -2,17 +2,28 @@ import { token } from '../lib/auth';
 import { readContent } from '../lib/file';
 import { createIssue } from '../lib/jira';
 import { generate } from '../lib/prompt';
+import { getPrompt, getSerializer, promptType, serialierType } from '../modules';
 import { ResponseHelper } from '../utils/response-helper';
 import { SettingsController } from './settings.controller';
 
 export class WorkflowController {
   async process(filename: string) {
     try {
+      const prompt = getPrompt(promptType.GQL);
+      const serializer = getSerializer('openapi');
+
       const fileContents = await readContent(filename);
-      const iamResponse = await token();
-      const data = await generate(iamResponse.access_token, fileContents);
-      const refinedData = await this.refine(data);
-      return ResponseHelper.success('Response generated', refinedData);
+      console.log('fileContents => ', fileContents);
+      const refinedData = await prompt.generate(fileContents);
+      // const iamResponse = await token();
+      // const data = await generate(iamResponse.access_token, fileContents);
+      // console.log('data => ', data);
+      // const refinedData = await this.refine(data);
+      // console.log('refinedData => ', JSON.stringify(refinedData));
+      return ResponseHelper.success(
+        'Response generated',
+        JSON.parse(refinedData.results[0].generated_text),
+      );
     } catch (e: any) {
       return ResponseHelper.error(e.message);
     }
@@ -128,14 +139,14 @@ export class WorkflowController {
         const generatedTexts = splitted.map((onestr) =>
           onestr.split('\n').filter((line) => line.trim() !== ''),
         );
-        
+
         // let currentObject = {};
         let currentObject = {};
         let key = '';
         generatedTexts.forEach((generatedTextLines) => {
           if (generatedTextLines.length > 0) {
             generatedTextLines.forEach((line, idx) => {
-            //   console.log(`line ${idx} => ${line} : ${line.length}`);
+              //   console.log(`line ${idx} => ${line} : ${line.length}`);
               if (line.includes('Test Case scenario') && line.length > 19) {
                 if (Object.keys(currentObject).length > 0) {
                   parsedResult.test_cases.push(currentObject);

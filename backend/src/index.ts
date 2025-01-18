@@ -8,6 +8,7 @@ import { ResponseHelper } from './utils/response-helper';
 import { RouteLoader } from './utils/routes-loader';
 import { scheduler } from './pipelines/lib/scheduler';
 import './utils/db';
+import { testQueue } from './pipelines/test';
 
 const server = new Server({
   port: config.port,
@@ -36,6 +37,7 @@ const init = async () => {
   await server.start();
   logger.info(`server started at ${server.info.uri}`, server.info);
 
+  // new requests > 39dafab3-ca25-4f6a-9c7d-0d404277e75c
   // scheduler.add({ name: 'test', data: { message: 'This is test message' } });
   // scheduler.add({
   //   name: 'documentation',
@@ -46,6 +48,7 @@ const init = async () => {
   //     message: 'This is test message',
   //   },
   // });
+  // await testQueue({}, {});
 };
 
 process.on('SIGINT', (err) => {

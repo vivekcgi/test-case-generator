@@ -35,19 +35,30 @@ export const testQueue = async function (job: any, done: any) {
   //   data: { d: 'This is result data for fragment id 49d8bf7a-697e-48a5-b551-c7d16148695f' },
   // });
   // console.log(error);
+  const request = await Request.query()
+    .withGraphFetched('fragments(onlyPending)')
+    .findById('39dafab3-ca25-4f6a-9c7d-0d404277e75c')
+    .modifiers({
+      onlyPending(builder) {
+        builder.where('status', 'PENDING').orWhere('status', 'FAILED');
+      },
+    });
 
-  let result = await Request.query()
-    .select()
-    .withGraphFetched('fragments')
-    .withGraphFetched('fragments.result')
-    .withGraphFetched('fragments.error');
-  console.log('request_id: ', result[1].id);
-  console.log('docType: ', result[1].docType);
-  console.log('fileKey: ', result[1].fileKey);
-  console.log('status: ', result[1].status);
-  console.log('fragments: ', result[1].fragments);
-  console.log('one fragment result: ', result[1].fragments[0].result);
-  console.log('one fragment error: ', result[1].fragments[0].error);
+  console.log('request =>', request);
+
+  // let result = await Request.query()
+  //   .select()
+  //   .withGraphFetched('fragments')
+  //   .withGraphFetched('fragments.result')
+  //   .withGraphFetched('fragments.error');
+  // console.log(JSON.stringify(result));
+  // console.log('request_id: ', result[1].id);
+  // console.log('docType: ', result[1].docType);
+  // console.log('fileKey: ', result[1].fileKey);
+  // console.log('status: ', result[1].status);
+  // console.log('fragments: ', result[1].fragments);
+  // console.log('one fragment result: ', result[1].fragments[0].result);
+  // console.log('one fragment error: ', result[1].fragments[0].error);
 
   done();
 };

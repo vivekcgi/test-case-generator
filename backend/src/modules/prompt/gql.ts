@@ -5,27 +5,41 @@ import { config } from '../../config/config';
 export class GqlPrompt implements IPrompt {
   async generate(fragment: any): Promise<any> {
     const payload = {
-      model_id: 'ibm/granite-34b-code-instruct',
+      model_id: 'ibm/granite-13b-chat-v2', //'ibm/granite-34b-code-instruct',
       parameters: {
-        decoding_method: 'greedy',
-        min_new_tokens: 1,
-        max_new_tokens: 1000,
+        // decoding_method: 'greedy',
+        // repetition_penalty: 1.05,
+        // min_new_tokens: 1,
+        // max_new_tokens: 4096,
+        // stop_sequences: ['<end>'],
+        // include_stop_sequence: false,
+        decoding_method: 'sample',
+        temperature: 0.7,
+        top_p: 0.85,
+        top_k: 50,
+        typical_p: 1,
+        repetition_penalty: 1.05,
         stop_sequences: ['<end>'],
         include_stop_sequence: false,
+        min_new_tokens: 1,
+        max_new_tokens: 2048,
       },
       moderations: {},
       prompt_id: 'prompt_builder',
       data: {
         input: `
+        """
         ${fragment}
+        <end>
         `,
         instruction:
-          'Using the yaml specification given below after """, considering the queries and mutations in the document, generate the test cases for each path. The generated output test case should include 1.Test Case scenario 2. Sample Input data in JSON format 3. Preconditions and dependencies 4. Well described Testing steps 5. Sample output data in JSON format 6. All returned Output status codes. \n""" \n <end>',
-        input_prefix: '',
-        output_prefix: '',
+          'Generate the test cases for the GraphQL APIs using the data documented in a YAML format after """',
+        input_prefix: 'Input:',
+        output_prefix: 'Output:',
         examples: [
           {
             input: `
+              """
               gqlapi: 1.0.1
                 info:
                   title: Sysml Server Graphql API
@@ -76,12 +90,14 @@ export class GqlPrompt implements IPrompt {
                         description: Unauthenticated
                       403:
                         description: Forbidden
+              <end>
               `,
             output:
-              '[{"scenario":"successfully call to the exampleMutation with required params","sampleInput":{"param_one":"param_one_example"},"preconditions":["user must be authenticated","preconditions 2","preconditions 3"],"steps":["set the authorization header with valid token","call the exampleMutation mutation with valid input data","observe the output"],"sampleOutput":{"outputData":{"outputDataPropOne":"outputDataPropOneExample","outputDataPropTwo":"outputDataPropTwoExample"}},"status":{"200":"something"}},{"scenario":"successfully call to the exampleMutation with additional params","sampleInput":{"param_one":"param_one_example","param_two":{"child_param_one":"child_param_one_example","child_param_two":"child_param_two_example"}},"preconditions":["user must be authenticated","preconditions 2","preconditions 3"],"steps":["set the authorization header with valid token","call the exampleMutation mutation with valid input data","observe the output"],"sampleOutput":{"outputData":{"outputDataPropOne":"outputDataPropOneExample","outputDataPropTwo":"outputDataPropTwoExample"}},"status":{"200":"something"}},{"scenario":"call to the exampleMutation without required params","sampleInput":{"param_two":{"child_param_one":"child_param_one_example","child_param_two":"child_param_two_example"}},"preconditions":["user must be authenticated","preconditions 2","preconditions 3"],"steps":["set the authorization header with valid token","call the exampleMutation mutation with valid input data","observe the output"],"sampleOutput":{},"status":{"400":"Bad Request"}},{"scenario":"call to the exampleMutation with unauthenticated user","sampleInput":{"param_one":"param_one_example"},"preconditions":["user must not be authenticated","preconditions 2","preconditions 3"],"steps":["do not set the authorization header with auth token","call the exampleMutation mutation with valid input data","observe the output"],"sampleOutput":{},"status":{"401":"Unauthenticated"}},{"scenario":"call to the exampleMutation with unauthorized user","sampleInput":{"param_one":"param_one_example"},"preconditions":["user must be authenticated","preconditions 2","preconditions 3"],"steps":["set the authorization header with user auth token having improper permissions","call the exampleMutation mutation with valid input data","observe the output"],"sampleOutput":{},"status":{"403":"Forbidden"}}]',
+              '[{"scenario":"successfully call to the exampleMutation with required params","sampleInput":{"param_one":"param_one_example"},"preconditions":["user must be authenticated","preconditions 2","preconditions 3"],"steps":["set the authorization header with valid token","call the exampleMutation mutation with valid input data","observe the output"],"sampleOutput":{"outputData":{"outputDataPropOne":"outputDataPropOneExample","outputDataPropTwo":"outputDataPropTwoExample"}},"status":{"200":"something"}},{"scenario":"successfully call to the exampleMutation with additional params","sampleInput":{"param_one":"param_one_example","param_two":{"child_param_one":"child_param_one_example","child_param_two":"child_param_two_example"}},"preconditions":["user must be authenticated","preconditions 2","preconditions 3"],"steps":["set the authorization header with valid token","call the exampleMutation mutation with valid input data","observe the output"],"sampleOutput":{"outputData":{"outputDataPropOne":"outputDataPropOneExample","outputDataPropTwo":"outputDataPropTwoExample"}},"status":{"200":"something"}},{"scenario":"call to the exampleMutation without required params","sampleInput":{"param_two":{"child_param_one":"child_param_one_example","child_param_two":"child_param_two_example"}},"preconditions":["user must be authenticated","preconditions 2","preconditions 3"],"steps":["set the authorization header with valid token","call the exampleMutation mutation with valid input data","observe the output"],"sampleOutput":{},"status":{"400":"Bad Request"}},{"scenario":"call to the exampleMutation with unauthenticated user","sampleInput":{"param_one":"param_one_example"},"preconditions":["user must not be authenticated","preconditions 2","preconditions 3"],"steps":["do not set the authorization header with auth token","call the exampleMutation mutation with valid input data","observe the output"],"sampleOutput":null,"status":{"401":"Unauthenticated"}},{"scenario":"call to the exampleMutation with unauthorized user","sampleInput":{"param_one":"param_one_example"},"preconditions":["user must be authenticated","preconditions 2","preconditions 3"],"steps":["set the authorization header with user auth token having improper permissions","call the exampleMutation mutation with valid input data","observe the output"],"sampleOutput":null,"status":{"403":"Forbidden"}}]',
           },
           {
             input: `
+              """
               gqlapi: 1.0.0
                 info:
                   title: Sysml Server
@@ -149,13 +165,15 @@ export class GqlPrompt implements IPrompt {
                         description: Unauthenticated
                       403:
                         description: Forbidden
+              <end>
               `,
             output:
-              '[{"scenario":"successfully call to the exampleQuery with required params","sampleInput":{"param_one":"param_one_example"},"preconditions":["user must be authenticated","preconditions 2","preconditions 3"],"steps":["set the authorization header with valid token","call the exampleQuery query with valid input data","observe the output"],"sampleOutput":{"outputData":[{"arrayPropOne":"arrayPropOneExample","arrayPropTwo":"arrayPropTwoExample","arrayPropThree":"arrayPropThreeExample","arrayPropFour":{"objectPropOne":"objectPropOneExample","objectPropTwo":"000"}}]},"status":{"200":"Successful operation"}},{"scenario":"successfully call to the exampleQuery with additional params","sampleInput":{"param_one":"param_one_example","param_two":{"child_param_one":"child_param_one_example","child_param_two":"child_param_two_example"}},"preconditions":["user must be authenticated","preconditions 2","preconditions 3"],"steps":["set the authorization header with valid token","call the exampleQuery query with valid input data","observe the output"],"sampleOutput":{"outputData":[{"arrayPropOne":"arrayPropOneExample","arrayPropTwo":"arrayPropTwoExample","arrayPropThree":"arrayPropThreeExample","arrayPropFour":{"objectPropOne":"objectPropOneExample","objectPropTwo":"000"}}]},"status":{"200":"Successful operation"}},{"scenario":"call to the exampleQuery without required params","sampleInput":{"param_two":{"child_param_one":"child_param_one_example","child_param_two":"child_param_two_example"}},"preconditions":["user must be authenticated","preconditions 2","preconditions 3"],"steps":["set the authorization header with valid token","call the exampleQuery query with valid input data","observe the output"],"sampleOutput":{},"status":{"400":"Bad Request"}},{"scenario":"call to the exampleQuery with unauthenticated user","sampleInput":{"param_one":"param_one_example"},"preconditions":["user must not be authenticated","preconditions 2","preconditions 3"],"steps":["do not set the authorization header with auth token","call the exampleQuery query with valid input data","observe the output"],"sampleOutput":{},"status":{"401":"Unauthenticated"}},{"scenario":"call to the exampleQuery with unauthorized user","sampleInput":{"param_one":"param_one_example"},"preconditions":["user must be authenticated","preconditions 2","preconditions 3"],"steps":["set the authorization header with user auth token having improper permissions","call the exampleQuery query with valid input data","observe the output"],"sampleOutput":{},"status":{"403":"Forbidden"}}]',
+              '[{"scenario":"successfully call to the exampleQuery with required params","sampleInput":{"param_one":"param_one_example"},"preconditions":["user must be authenticated"],"steps":["set the authorization header with valid token","call the exampleQuery query with valid input data","observe the output"],"sampleOutput":{"outputData":[{"arrayPropOne":"arrayPropOneExample","arrayPropTwo":"arrayPropTwoExample","arrayPropThree":"arrayPropThreeExample","arrayPropFour":{"objectPropOne":"objectPropOneExample","objectPropTwo":"000"}}]},"status":{"200":"Successful operation"}},{"scenario":"successfully call to the exampleQuery with additional params","sampleInput":{"param_one":"param_one_example","param_two":{"child_param_one":"child_param_one_example","child_param_two":"child_param_two_example"}},"preconditions":["user must be authenticated","preconditions 2","preconditions 3"],"steps":["set the authorization header with valid token","call the exampleQuery query with valid input data","observe the output"],"sampleOutput":{"outputData":[{"arrayPropOne":"arrayPropOneExample","arrayPropTwo":"arrayPropTwoExample","arrayPropThree":"arrayPropThreeExample","arrayPropFour":{"objectPropOne":"objectPropOneExample","objectPropTwo":"000"}}]},"status":{"200":"Successful operation"}},{"scenario":"call to the exampleQuery without required params","sampleInput":{"param_two":{"child_param_one":"child_param_one_example","child_param_two":"child_param_two_example"}},"preconditions":["user must be authenticated","preconditions 2","preconditions 3"],"steps":["set the authorization header with valid token","call the exampleQuery query with valid input data","observe the output"],"sampleOutput":null,"status":{"400":"Bad Request"}},{"scenario":"call to the exampleQuery with unauthenticated user","sampleInput":{"param_one":"param_one_example"},"preconditions":["user must not be authenticated","preconditions 2","preconditions 3"],"steps":["do not set the authorization header with auth token","call the exampleQuery query with valid input data","observe the output"],"sampleOutput":null,"status":{"401":"Unauthenticated"}},{"scenario":"call to the exampleQuery with unauthorized user","sampleInput":{"param_one":"param_one_example"},"preconditions":["user must be authenticated","preconditions 2","preconditions 3"],"steps":["set the authorization header with user auth token having improper permissions","call the exampleQuery query with valid input data","observe the output"],"sampleOutput":null,"status":{"403":"Forbidden"}}]',
           },
         ],
       },
     };
+
     // const payload = {
     //   model_id: 'ibm/granite-34b-code-instruct',
     //   parameters: {

@@ -7,7 +7,7 @@ export const scheduler = new Queue(
   `redis://${config.redis.host}:${config.redis.port}`,
 );
 (async () => {
-  console.info('starting scheduler process...');
   const caller = await import(path.join(__dirname, './executer'));
+  console.info('starting scheduler process...');
   scheduler.process(caller.default);
 })();

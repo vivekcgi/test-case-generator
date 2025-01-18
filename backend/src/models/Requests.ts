@@ -4,6 +4,7 @@ import { RelationMappings, RelationMappingsThunk } from 'objection';
 
 export class Request extends BaseModel {
   id!: string;
+  tag!: string;
   docType!: string;
   fileKey!: string;
   status!: string;

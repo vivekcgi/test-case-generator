@@ -32,6 +32,8 @@ export class Fragment extends BaseModel {
       result: {
         relation: BaseModel.HasOneRelation,
         modelClass: path.join(__dirname, '/Results'),
+        filter: (query) =>
+          query.select('id', 'fragment_id', 'data').orderBy('created_at', 'DESC').first(),
         join: {
           from: 'fragments.id',
           to: 'gen_results.fragment_id',
@@ -40,7 +42,8 @@ export class Fragment extends BaseModel {
       error: {
         relation: BaseModel.HasOneRelation,
         modelClass: path.join(__dirname, '/Errors'),
-        filter: (query) => query.select('id', 'fragment_id', 'message'),
+        filter: (query) =>
+          query.select('id', 'fragment_id', 'message').orderBy('created_at', 'DESC').first(),
         join: {
           from: 'fragments.id',
           to: 'gen_errors.fragment_id',

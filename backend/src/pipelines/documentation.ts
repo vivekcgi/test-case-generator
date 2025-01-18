@@ -68,7 +68,7 @@ export const documentation = async (job: any, done: any) => {
       // once all the request level tasks are done, call the generation pipeline
       console.log('========Main=======');
       console.log('Documentation pipeline completed successfully.');
-      console.log('Starting generation pipeline...');
+      console.log(`Starting generation pipeline for request id ${job.data.requestId}...`);
       generation(job, done);
     }
   });
