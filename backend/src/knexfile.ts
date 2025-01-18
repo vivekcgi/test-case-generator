@@ -1,7 +1,7 @@
-import './src/utils/dotenv';
+import './utils/dotenv';
 import type { Knex } from 'knex';
 import path from 'path';
-import { config as confSettings } from './src/config/config';
+import { config as confSettings } from './config/config';
 
 // Update with your config settings.
 const knexConfig: { [key: string]: Knex.Config } = {
@@ -22,7 +22,7 @@ const knexConfig: { [key: string]: Knex.Config } = {
     },
     migrations: {
       tableName: 'knex_migrations',
-      directory: path.join(__dirname, './src/migrations'),
+      directory: path.join(__dirname, './migrations'),
     },
   },
   production: {
@@ -40,7 +40,7 @@ const knexConfig: { [key: string]: Knex.Config } = {
     },
     migrations: {
       tableName: 'knex_migrations',
-      directory: path.join(__dirname, './src/migrations'),
+      directory: path.join(__dirname, './migrations'),
     },
   },
 };
