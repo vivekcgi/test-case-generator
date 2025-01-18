@@ -1,8 +1,8 @@
 FROM node:lts-alpine AS BASE
 WORKDIR /app
 COPY . .
-RUN npm install \
-    npm build
+RUN npm install
+RUN npm build
 
 FROM node:lts-alpine AS PRODUCTION
 ENV NODE_ENV production
