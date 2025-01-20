@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const httpRequest = axios.create({
-  baseURL: "http://PSL-H8QN863:5000",
+  baseURL: "http://localhost:5000",
 });
 
 
