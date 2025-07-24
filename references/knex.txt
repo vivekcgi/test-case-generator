@@ -1,0 +1,5 @@
+https://knexjs.org/guide/migrations.html#environment-configuration
+https://github.com/knex/knex?tab=readme-ov-file
+https://vincit.github.io/objection.js/api/query-builder/
+https://michaelavila.com/knex-querylab/
+https://github.com/knex/knex/wiki/Recipes

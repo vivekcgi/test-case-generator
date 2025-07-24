@@ -1,0 +1,14 @@
+1. Document splitter
+- document can be of any type so will need to detect the type of the document
+- based on the document type, select the splitter
+- will need factory
+
+2. Prompt factory
+- there can be prompts designed for generating text with different types of documents
+- based on the document type, select the prompt
+- will need factory
+
+3. Refinement factory
+- There can be different refinement units designed to handle the response from the model and convert it to a standard format
+- based on the document type, select the refinement unit
+- will need factory

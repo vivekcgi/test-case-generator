@@ -1,0 +1,7 @@
+https://developer.ibm.com/tutorials/awb-watsonx-prompt-lab-build-rag-app-llama405b/
+
+# Python Reference
+https://bam.res.ibm.com/docs/api-reference#text-generation
+https://ibm.github.io/ibm-generative-ai/v3.0.0/getting_started.html
+https://github.com/IBM/ibm-generative-ai/blob/v3.0.0/examples/text/generation_streaming.py
+https://github.ibm.com/Gen-AI/ibm-generative-ai-cookbooks

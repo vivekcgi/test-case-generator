@@ -1,0 +1,81 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tsg-server-config
+data:
+  PORT: "80"
+  LOG_LEVEL: "info"
+  ENVIRONMENT: "development"
+  WSX_PROJECT_ID: "435d7cf3-22d4-480c-9a9a-1b9fbd348f76"
+  WSX_MODEL_ID: "ibm/granite-34b-code-instruct"
+  WSX_MODEL_API: "https://bam-api.res.ibm.com/v2/text/chat?version=2024-07-05"
+  IAM_TOKEN_URL: "https://iam.cloud.ibm.com/identity/token"
+  IAM_API_KEY: "pak-Kgv2K_Mgrc2vlP263gFSoth08MW4eDqXYQ6xHiV5ctc"
+  DB_HOST: "127.0.0.1"
+  DB_PORT: "5432"
+  DB_NAME: "my_db"
+  DB_USER: "postgres"
+  DB_PASSWORD: "SuperSecret123"
+  DB_VERSION: "15"
+  REDIS_HOST: "127.0.0.1"
+  REDIS_PORT: "6379"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tsg-server-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tsg-server
+  template:
+    metadata:
+      name: tsg-server-pod
+      labels:
+        app: tsg-server
+    spec:
+      containers:
+        - name: tsg-server-container
+          image: vivekdock26/tsg-server:cbcb937
+          ports:
+            - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: tsg-server-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tsg-server-service
+spec:
+  selector:
+    app: tsg-server
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30000
+  type: NodePort
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tsg-ingress
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+spec:
+  rules:
+    - host: server.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: tsg-server-service
+                port:
+                  number: 80

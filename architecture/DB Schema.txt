@@ -1,0 +1,27 @@
+1. requests
+
+id uuid primary
+type enum (openapi, gql)
+fileKey string
+status enum (PENDING, IN_PROGRESS, FAILED, COMPLETED)
+created_at timestamp
+updated_at timestamp
+
+2. fragments
+id uuid primary
+request_id uuid foreignKey requests
+name string
+data text
+status Enum (PENDING, IN_PROGRESS, FAILED, COMPLETED)
+
+3. gen_results
+id uuid primary
+fragment_id foreignKey fragments
+data text
+
+4. gen_errors
+id uuid primary
+fragment_id foreignKey fragments
+message string
+data text
+

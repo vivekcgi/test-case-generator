@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tsg-server-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tsg-server
+  template:
+    metadata:
+      name: tsg-server-pod
+      labels:
+        app: tsg-server
+    spec:
+      containers:
+        - name: tsg-server-container
+          image: tsg-server:latest
+          ports:
+            - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: tsg-server-config

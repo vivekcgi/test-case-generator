@@ -1,0 +1,109 @@
+gqlapi: 1.0.0
+info:
+  title: Sysml Server
+  description: This is sysml server
+  version: 1.0.0
+queries:
+  exampleQuery:
+    tags:
+      - example
+      - exampleQuery
+    summary: This is the summary of exampleQuery
+    description: This is the description of exampleQuery
+    variables:
+      param_one:
+        type: string
+        required: true
+        example: "param_one_example"
+      param_two:
+        type: object
+        required: false
+        properties:
+          child_param_one:
+            type: string
+            required: false
+            example: 'child_param_one_example'
+          child_param_two:
+            type: boolean
+            required: false
+            example: 'child_param_two_example'
+    output:
+      200:
+        description: Successful operation
+        contentType: application/json
+        schema:
+          type: object
+          properties:
+            outputData:
+              type: array
+              items:
+                properties:
+                  arrayPropOne:
+                    type: string
+                    required: true
+                    example: "arrayPropOneExample"
+                  arrayPropTwo:
+                    type: string
+                    required: true
+                    example: "arrayPropTwoExample"
+                  arrayPropThree:
+                    type: string
+                    required: false
+                    example: "arrayPropThreeExample"
+                  arrayPropFour:
+                    type: object
+                    properties:
+                      objectPropOne:
+                        type: string
+                        example: "objectPropOneExample"
+                      objectPropTwo:
+                        type: number
+                        example: 000
+      400:
+        description: Bad Request
+      401:
+        description: Unauthenticated
+      403:
+        description: Forbidden
+
+[
+{ 
+"scenario": "successfully call to the exampleQuery with required params",
+"sampleInput": { "param_one":"param_one_example" }, 
+"preconditions": ["user must be authenticated", "preconditions 2", "preconditions 3"], 
+"steps": ["set the authorization header with valid token", "call the exampleQuery query with valid input data", "observe the output"], 
+"sampleOutput": {"outputData": [{"arrayPropOne": "arrayPropOneExample", "arrayPropTwo": "arrayPropTwoExample", "arrayPropThree": "arrayPropThreeExample", "arrayPropFour": {"objectPropOne": "objectPropOneExample", "objectPropTwo": 000}}]},
+"status": {"200": "Successful operation"}
+},
+{ 
+"scenario": "successfully call to the exampleQuery with additional params",
+"sampleInput": { "param_one":"param_one_example", "param_two": { "child_param_one": "child_param_one_example", "child_param_two": "child_param_two_example" } }, 
+"preconditions": ["user must be authenticated", "preconditions 2", "preconditions 3"], 
+"steps": ["set the authorization header with valid token", "call the exampleQuery query with valid input data", "observe the output"], 
+"sampleOutput": {"outputData": [{"arrayPropOne": "arrayPropOneExample", "arrayPropTwo": "arrayPropTwoExample", "arrayPropThree": "arrayPropThreeExample", "arrayPropFour": {"objectPropOne": "objectPropOneExample", "objectPropTwo": 000}}]},
+"status": {"200": "Successful operation"} },
+{ 
+"scenario": "call to the exampleQuery without required params",
+"sampleInput": { "param_one":"param_one_example", "param_two": { "child_param_one": "child_param_one_example", "child_param_two": "child_param_two_example" } }, 
+"preconditions": ["user must be authenticated", "preconditions 2", "preconditions 3"], 
+"steps": ["set the authorization header with valid token", "call the exampleQuery query with valid input data", "observe the output"], 
+"sampleOutput": {},
+"status": {"400": "Bad Request"} },
+{ 
+"scenario": "call to the exampleQuery with unauthenticated user",
+"sampleInput": { "param_one":"param_one_example" }, 
+"preconditions": ["user must be authenticated", "preconditions 2", "preconditions 3"], 
+"steps": ["do not set the authorization header with auth token", "call the exampleQuery query with valid input data", "observe the output"], 
+"sampleOutput": {},
+"status": {"401": "Unauthenticated"} },
+{ 
+"scenario": "call to the exampleQuery with unauthorized user",
+"sampleInput": { "param_one":"param_one_example" }, 
+"preconditions": ["user must be authenticated", "preconditions 2", "preconditions 3"], 
+"steps": ["set the authorization header with user auth token having improper permissions", "call the exampleQuery query with valid input data", "observe the output"], 
+"sampleOutput": {},
+"status": {"403": "Forbidden"} 
+}
+]
+
+

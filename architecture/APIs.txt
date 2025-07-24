@@ -1,0 +1,4 @@
+1. processing api
+2. getting all the fragments under a request id
+3. getting the data of one fragment (if the data status is `errored` get the error from the db table)
+4. file upload api (it will only upload the file to the local directory and return the name of the file)

@@ -1,0 +1,42 @@
+gqlapi: 1.0.1
+info:
+  title: Sysml Server Graphql API
+  description: Sysml Server Graphql API
+  version: 1.0.0
+mutations:
+  createProject:
+    description: Create a sysml project
+    tags:
+      - createProject
+      - project
+    variables:
+      name:
+        type: string
+        required: true
+        example: "SampleProject"
+      sort:
+        type: object
+        required: false
+        properties:
+          aaa:
+            type: string
+            required: false
+          bbb:
+            type: boolean
+            required: false
+    output:
+      200:
+        contentType: application/json
+        description: something
+        schema:
+          type: object
+          properties:
+            project:
+              type: object
+              properties:
+                projectId:
+                  type: string
+                  example: "123456"
+                name:
+                  type: string
+                  example: SampleProject

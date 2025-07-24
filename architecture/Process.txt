@@ -1,0 +1,32 @@
+inside process document API:
+1. user submits a request with file
+2. file gets stored into a local file system (directory) / uploads to object storage (Enhancement)
+3. create a request into the database with reference/request id
+4. attach the request id and uploaded filename as a job object and submit to scheduler
+
+
+inside document handling pipeline:
+***************
+1. it may be possible that to handle different type of document we will need to design different pipeline for each type.
+2. these pipelines may have different process than the one given below
+3. in the end, each pipeline will call the generation pipeline
+***************
+
+1. the pipeline will accept the request id and filename as a job data
+2. 1st step in the pipeline will be to read the content of the file
+3. 2nd step will be split the complete content based on the API query/mutation (in case of GraphQL) / method (in case of REST)
+4. 3rd step will be to store each fragment into the database against the request id, resulting into generating the fragment id into the db
+5. once all the fragments are saved call the generation pipeline
+6. in case of any error, record the error on console and into the database against the request id and change the status of the request as `errored`
+
+inside generation pipeline
+1. the generation pipeline will accept the request id as a job data
+2. in the global scope the pipeline will retrieve all the saved fragments against the request id from the database
+3. for each fragment call the async queue (https://caolan.github.io/async/v3/docs.html#autoInject) and submit the fragment to the queue for asynchronous processing
+4. 1st step in the queue is to submit the fragment to the configured prompt
+5. 2nd step will be refine the generated data and convert it to the standard format
+6. 3rd step will be to store the refined data into the database against the request id and fragment id
+7. in case of any error, record the error on console and into the database against the request id and fragment id and change the status of the fragment to `errored`
+8. once all the fragments are completed processing, change the status of the request as `completed`
+ 
+
